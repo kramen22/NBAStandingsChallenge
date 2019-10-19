@@ -1,55 +1,72 @@
 # teams
-teamCodeToName = {
-    'ATL': 'Atlanta Hawks',
-    'BKN': 'Brooklyn Nets',
-    'BOS': 'Boston Celtics',
-    'CHA': 'Charlotte Hornets',
-    'CHI': 'Chicago Bulls',
-    'CLE': 'Cleveland Cavaliers',
-    'DAL': 'Dallas Mavericks',
-    'DEN': 'Denver Nuggets',
-    'DET': 'Detroit Pistons',
-    'GSW': 'Golden State Warriors',
-    'HOU': 'Houston Rockets',
-    'IND': 'Indiana Pacers',
-    'LAC': 'Los Angeles Clippers',
-    'LAL': 'Los Angeles Lakers',
-    'MEM': 'Memphis Grizzlies',
-    'MIA': 'Miami Heat',
-    'MIL': 'Milwaukee Bucks',
-    'MIN': 'Minnesota Timberwolves',
-    'NOP': 'New Orleans Pelicans',
-    'NYK': 'New York Knicks',
-    'OKC': 'Oklahoma City Thunder',
-    'ORL': 'Orlando Magic',
-    'PHI': 'Philadelphia 76ers',
-    'PHX': 'Phoenix Suns',
-    'POR': 'Portland Trail Blazers',
-    'SAC': 'Sacramento Kings',
-    'SAS': 'San Antonio Spurs',
-    'TOR': 'Toronto Raptors',
-    'UTA': 'Utah Jazz',
-    'WAS': 'Washington Wizards',
-}
-
-spreadsheetHeaderEast = [
-    'Eastern Conference',
-    'Wins',
-    'Losses',
-    'W/L%',
-    'GB',
-    'PS/G',
-    'PA/G',
-    'SRS',
+eastTeamCodeAlphabetical = [
+    'ATL',
+    'BKN',
+    'BOS',
+    'CHA',
+    'CHI',
+    'CLE',
+    'DET',
+    'IND',
+    'MIA',
+    'MIL',
+    'NYK',
+    'ORL',
+    'PHI',
+    'TOR',
+    'WAS',
 ]
 
-spreadsheetHeaderWest = [
-    'Western Conference',
-    'Wins',
-    'Losses',
-    'W/L%',
-    'GB',
-    'PS/G',
-    'PA/G',
-    'SRS',
+westTeamCodeAlphabetical = [
+    'DAL',
+    'DEN',
+    'GSW',
+    'HOU',
+    'LAC',
+    'LAL',
+    'MEM',
+    'MIN',
+    'NOP',
+    'OKC',
+    'PHX',
+    'POR',
+    'SAC',
+    'SAS',
+    'UTA',
 ]
+
+class Picker:
+    def __init__(self, name, column, picksWest, picksEast):
+        self.name = name
+        self.column = column
+        self.picksWest = picksWest
+        self.picksEast = picksEast
+        self.scoreE = []
+        self.scoreW = []
+        self.totalScore = 0
+
+    def calculateScore(self, standingsW, standingsE):
+        pickedStanding = 0
+        for key in self.picksWest.keys():
+            actualStanding = standingsW.get(key)
+            self.scoreW.append(self.calculateDifference(pickedStanding, actualStanding))
+            pickedStanding += 1
+        pickedStanding = 0
+        for key in self.picksEast.keys():
+            actualStanding = standingsE.get(key)
+            self.scoreE.append(self.calculateDifference(pickedStanding, actualStanding))
+            pickedStanding += 1
+        self.totalScore = sum(self.scoreE) + sum(self.scoreW)
+
+    def calculateDifference(self, pickedStanding, actualStanding):
+        difference = 0
+        if(actualStanding > pickedStanding):
+            difference = actualStanding - pickedStanding
+        else:
+            difference = pickedStanding - actualStanding
+        if(actualStanding > 7):
+            difference += 3
+        return difference
+
+    def getTotalScore(self):
+        return self.totalScore
