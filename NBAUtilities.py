@@ -67,6 +67,3 @@ class Picker:
         if(actualStanding > 7):
             difference += 3
         return difference
-
-    def getTotalScore(self):
-        return self.totalScore
