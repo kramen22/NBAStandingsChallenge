@@ -59,13 +59,13 @@ for key in sorted(eastNameToStanding.keys()):
 # avoid tampering
 pickers = []
 sheet = client.open("2019-20 NBA Seed Pick-Ems").sheet1
-pickerCells = sheet.range('C23:T32')
+pickerCells = sheet.range('C23:AC32')
 pickerCells.sort(key=lambda x: x.row)
 pickerCells.sort(key=lambda x: x.col)
 # incoming bull shit code, these indices are based entirely 
 # on the spreadsheet so don't @ me
 scoreCells = []
-numPickers = 6
+numPickers = 9
 readerIndex = 0
 numPicks = 8
 ewOffset = 10
